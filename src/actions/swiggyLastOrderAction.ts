@@ -36,7 +36,7 @@ export async function createSwiggyAirdropCampaignAction(
       id: res.id,
     },
     data: {
-      blinkLink: `https://dial.to/developer?url=https://contriearn.vercel.app/api/actions/contributor-airdrop?campaignId=${res.id}&cluster=devnet`,
+      blinkLink: `https://dial.to/developer?url=https://contriearn.vercel.app/api/actions/restaurant-airdrop?campaignId=${res.id}&cluster=devnet`,
     },
   });
 
