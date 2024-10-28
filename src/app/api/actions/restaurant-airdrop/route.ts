@@ -83,11 +83,12 @@ export const GET = async (req: NextRequest) => {
       icon: new URL("/blink-preview.webp", new URL(req.url).origin).toString(),
       description: `Get airdrop for your last order at ${data?.nameOfRestuarant.replace(/(^\w{1})|(\s+\w{1})/g, (letter) => letter.toUpperCase())}.`,
       label: "Get Airdrop",
+      disabled: data?.totalAllocatedAmount === data?.totalClaimedAmount,
       links: {
         actions: [
           {
             href: `/api/actions/restaurant-airdrop?campaignId=${campaignId}&escrowId=${data.escrowAddress}&restaurantName=${data.nameOfRestuarant}`,
-            label: "Verify your last order",
+            label: `${data?.totalAllocatedAmount === data?.totalClaimedAmount ? "Airdrop has ended" : "Verify your last order"}`,
             type: "transaction",
           },
         ],
@@ -132,18 +133,6 @@ export const POST = async (req: NextRequest) => {
       throw "Invalid campaignId provided";
     }
 
-    // if (check === null) {
-    //   const contributors = await prisma.contributors.findMany({
-    //     where: {
-    //       rewardContributorsId: campaignId,
-    //       userName: body.data.username,
-    //     },
-    //   });
-    //   if (contributors.length === 0) {
-    //     throw 'Invalid "userName" provided/Not a contributor';
-    //   }
-    // }
-
     let account: PublicKey;
     try {
       account = new PublicKey(body.account);
@@ -176,8 +165,6 @@ export const POST = async (req: NextRequest) => {
       const { requestUrl, statusUrl } = await generateQR({
         providerName: "swiggy",
       });
-      console.log("requestUrl", requestUrl);
-      console.log("statusUrl", statusUrl);
       imageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=${requestUrl}`;
       statusUrlStart = statusUrl;
     }
@@ -202,6 +189,19 @@ export const POST = async (req: NextRequest) => {
     }
 
     if (check === "verified" && claim === "false") {
+      const getLastOrderClaim = await prisma.swiggyAirdropClaim.findUnique({
+        where: {
+          walletAddress_rewardSwiggyLastOrderId: {
+            walletAddress: body.account.toString(),
+            rewardSwiggyLastOrderId: campaignId,
+          },
+        },
+      });
+
+      if (getLastOrderClaim?.haveClaimed === true) {
+        throw "Airdrop already claimed";
+      }
+
       const rewardLastOrder = await prisma.rewardSwiggyLastOrder.findUnique({
         where: {
           id: campaignId,
@@ -251,9 +251,10 @@ export const POST = async (req: NextRequest) => {
           transaction,
           message: "Verify last order with Reclaim Protocol",
           links: {
-            next: completedAction({
-              contriType: "swiggy",
-            }),
+            next: {
+              type: "post",
+              href: `/api/actions/restaurant-airdrop/next-action?campaignId=${campaignId}&amount=${rewardLastOrder?.perPeopleClaimAmount}`,
+            },
           },
         },
       });

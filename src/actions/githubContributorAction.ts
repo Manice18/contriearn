@@ -36,6 +36,8 @@ export async function createGithubAirdropCampaignAction(
       totalAllocatedAmount: data.totalAllocatedAmount,
       eachContributorAmount: eachContributorAmount,
       escrowAddress: escrowAddress,
+      totalClaimedAmount: 0,
+      noOfTimesClaimed: 0,
     },
   });
 

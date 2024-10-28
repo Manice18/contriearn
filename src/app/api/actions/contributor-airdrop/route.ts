@@ -82,6 +82,7 @@ export const GET = async (req: NextRequest) => {
       icon: new URL("/blink-preview.webp", new URL(req.url).origin).toString(),
       description: `Get airdrop for your contributions at ${data?.gitHubRepo}`,
       label: "Get Airdrop",
+      disabled: data?.totalAllocatedAmount === data?.totalClaimedAmount,
       links: {
         actions: [
           {
@@ -91,7 +92,7 @@ export const GET = async (req: NextRequest) => {
               {
                 patternDescription: "Github username here",
                 name: "username",
-                label: "Put your github username here",
+                label: `${data?.totalAllocatedAmount === data?.totalClaimedAmount ? "Airdrop has ended" : "Put your github username here"}`,
                 type: "text",
               },
             ],
@@ -214,6 +215,10 @@ export const POST = async (req: NextRequest) => {
         },
       });
 
+      if (contributors[0].haveClaimed === true) {
+        throw "You have already claimed";
+      }
+
       const authority = new web3.PublicKey(body.account);
       const escrow = new web3.PublicKey(escrowId);
 
@@ -255,11 +260,12 @@ export const POST = async (req: NextRequest) => {
         fields: {
           type: "transaction",
           transaction,
-          message: "Verify Github Username with Reclaim Protocol",
+          message: "Verify Github username Reclaim Protocol",
           links: {
-            next: completedAction({
-              contriType: "github",
-            }),
+            next: {
+              type: "post",
+              href: `/api/actions/restaurant-airdrop/next-action?campaignId=${campaignId}&amount=${contributors[0].claimAmount}&username=${getUsername}`,
+            },
           },
         },
       });

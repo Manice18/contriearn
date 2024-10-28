@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
 
 import { useSession } from "next-auth/react";
@@ -46,9 +46,22 @@ type SwiggyAirdropCampaign = {
   noOfTimesClaimed: number | null;
 };
 
+const EmptyState = ({ onCreateClick }: { onCreateClick: () => void }) => (
+  <div className="flex min-h-[60vh] flex-col items-center justify-center space-y-6">
+    <p className="mt-6 text-center">
+      You have not created <br /> any airdrop campaigns yet.
+    </p>
+    <p className="flex gap-2.5">
+      Click below to create one. <CornerRightDown />
+    </p>
+    <Button onClick={onCreateClick}>Create Airdrop Campaign</Button>
+  </div>
+);
+
 const AirdropCampaignStats = () => {
-  const session = useSession();
+  const { data: sessionData } = useSession();
   const router = useRouter();
+  const userId = sessionData?.user?.id;
 
   const [githubAirdrops, setGithubAirdrops] = useState<GithubAirdropCampaign[]>(
     [],
@@ -56,47 +69,42 @@ const AirdropCampaignStats = () => {
   const [swiggyAirdrops, setSwiggyAirdrops] = useState<SwiggyAirdropCampaign[]>(
     [],
   );
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [showSwiggy, setShowSwiggy] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [showSwiggy, setShowSwiggy] = useState(false);
 
-  useEffect(() => {
-    setIsLoading(true);
-    const fetchAirdrops = async () => {
-      const githubCampaign = await fetchAllGithubCampaignsAction(
-        session?.data?.user.id,
-      );
-      const swiggyCampaign = await fetchAllSwiggyCampaignsAction(
-        session?.data?.user.id,
-      );
+  const fetchAirdrops = useCallback(async () => {
+    if (!userId) return;
+
+    try {
+      const [githubCampaign, swiggyCampaign] = await Promise.all([
+        fetchAllGithubCampaignsAction(userId),
+        fetchAllSwiggyCampaignsAction(userId),
+      ]);
+
       setGithubAirdrops(githubCampaign);
       setSwiggyAirdrops(swiggyCampaign);
-    };
+    } catch (error) {
+      console.error("Failed to fetch airdrops:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [userId]);
 
+  useEffect(() => {
     fetchAirdrops();
-    setIsLoading(false);
-  }, [session?.data?.user.id]);
+  }, [fetchAirdrops]);
+
+  const handleCreateClick = () => {
+    router.push("/airdrop-campaigns/create-airdrop-campaign");
+  };
+
+  const isEmpty = useMemo(
+    () => githubAirdrops.length === 0 && swiggyAirdrops.length === 0,
+    [githubAirdrops.length, swiggyAirdrops.length],
+  );
 
   if (isLoading) return <AirdropSkeleton />;
-
-  if (githubAirdrops.length === 0 && swiggyAirdrops.length === 0) {
-    return (
-      <div className="flex min-h-[60vh] flex-col items-center justify-center space-y-6">
-        <p className="mt-6 text-center">
-          You have not created <br /> any airdrop campaigns yet.
-        </p>
-        <p className="flex gap-2.5">
-          Click below to create one. <CornerRightDown />
-        </p>
-        <Button
-          onClick={() => {
-            router.push("/airdrop-campaigns/create-airdrop-campaign");
-          }}
-        >
-          Create Airdrop Campaign
-        </Button>
-      </div>
-    );
-  }
+  if (isEmpty) return <EmptyState onCreateClick={handleCreateClick} />;
 
   return (
     <div className="space-y-6">

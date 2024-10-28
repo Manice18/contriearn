@@ -32,6 +32,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
@@ -61,8 +62,7 @@ export default function SwiggyAirdropCampaignTable({
 }: {
   airdrop: SwiggyCampaignData[];
 }) {
-  console.log(airdrop[0].airdropCampaignName);
-  const [data, setData] = useState<SwiggyCampaignData[]>(airdrop);
+  const data: SwiggyCampaignData[] = airdrop;
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -82,7 +82,7 @@ export default function SwiggyAirdropCampaignTable({
   const columns: ColumnDef<SwiggyCampaignData>[] = useMemo(
     () => [
       {
-        id: "airdropCampaignName",
+        id: "Airdrop Campaign Name",
         accessorKey: "airdropCampaignName",
         header: ({ column }) => (
           <div className="flex items-center space-x-2">
@@ -99,6 +99,12 @@ export default function SwiggyAirdropCampaignTable({
           </div>
         ),
         cell: ({ row }) => <div>{row.original.airdropCampaignName}</div>,
+      },
+      {
+        id: "Name Of Restuarant",
+        accessorKey: "nameOfRestuarant",
+        header: "Name of Restuarant",
+        cell: ({ row }) => <div>{row.original.nameOfRestuarant}</div>,
       },
       {
         id: "Blink",
@@ -129,12 +135,6 @@ export default function SwiggyAirdropCampaignTable({
         },
       },
       {
-        id: "Name Of Restuarant",
-        accessorKey: "nameOfRestuarant",
-        header: "Name of Restuarant",
-        cell: ({ row }) => <div>{row.original.nameOfRestuarant}</div>,
-      },
-      {
         id: "Total Allocated Amount",
         accessorKey: "totalAllocatedAmount",
         header: "Total Allocated",
@@ -151,37 +151,53 @@ export default function SwiggyAirdropCampaignTable({
         ),
       },
       {
-        id: "Token Mint Address",
+        id: "Token Name",
         accessorKey: "tokenMintAddress",
-        header: "Token Mint Address",
+        header: "Token Name",
         cell: ({ row }) => (
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center space-x-2">
+            <Avatar className="size-7">
+              <AvatarImage
+                src={
+                  row.original.tokenMintAddress ===
+                  "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
+                    ? "https://coin-images.coingecko.com/coins/images/6319/large/usdc.png?1696506694"
+                    : row.original.tokenMintAddress ===
+                        "So11111111111111111111111111111111111111112"
+                      ? "https://assets.coingecko.com/coins/images/4128/standard/solana.png?1718769756"
+                      : ""
+                }
+              />
+              <AvatarFallback>
+                {row.original.tokenMintAddress ===
+                "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
+                  ? "USDC"
+                  : row.original.tokenMintAddress ===
+                      "So11111111111111111111111111111111111111112"
+                    ? "wSOL"
+                    : ""}
+              </AvatarFallback>
+            </Avatar>
             <span>
-              {shortenWalletAddress(row.original.tokenMintAddress as string, 4)}
+              {row.original.tokenMintAddress ===
+              "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
+                ? "USDC"
+                : row.original.tokenMintAddress ===
+                    "So11111111111111111111111111111111111111112"
+                  ? "wSOL"
+                  : ""}
             </span>
-            <SolanaExplorer address={row.original.tokenMintAddress as string}>
-              <Button className="rounded-full py-1" size="sm">
-                <SquareArrowOutUpRight className="size-3" />
-              </Button>
-            </SolanaExplorer>
           </div>
         ),
       },
       {
-        id: "Escrow Address",
-        accessorKey: "escrowAddress",
-        header: "Escrow Address",
+        id: "Times Claimed",
+        accessorKey: "noOfTimesClaimed",
+        header: "Times Claimed",
         cell: ({ row }) => (
-          <div className="flex items-center space-x-1">
-            <span>
-              {shortenWalletAddress(row.original.escrowAddress as string, 4)}
-            </span>
-            <SolanaExplorer address={row.original.escrowAddress as string}>
-              <Button className="rounded-full py-1" size="sm">
-                <SquareArrowOutUpRight className="size-3" />
-              </Button>
-            </SolanaExplorer>
-          </div>
+          <span>
+            {row.original.noOfTimesClaimed ? row.original.noOfTimesClaimed : 0}
+          </span>
         ),
       },
     ],
@@ -214,12 +230,12 @@ export default function SwiggyAirdropCampaignTable({
           placeholder="Filter Campaign Name..."
           value={
             (table
-              .getColumn("airdropCampaignName")
+              .getColumn("Airdrop Campaign Name")
               ?.getFilterValue() as string) ?? ""
           }
           onChange={(event) =>
             table
-              .getColumn("airdropCampaignName")
+              .getColumn("Airdrop Campaign Name")
               ?.setFilterValue(event.target.value)
           }
           className="dark:hover:bg-hoverdark max-w-sm transition-all duration-500 dark:bg-black"

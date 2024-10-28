@@ -91,6 +91,7 @@ const GithubAirdropCampaignForm = () => {
   async function onSubmit(values: GithubContributorFormType) {
     try {
       if (!connected || !publicKey) {
+        toast.error("Please connect your wallet first!");
         return;
       }
       let promise: any;

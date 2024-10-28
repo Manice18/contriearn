@@ -83,10 +83,10 @@ model RewardGithubContributors {
   totalContributors     Int
   tokenMintAddress      String
   totalAllocatedAmount  Float
-  totalClaimedAmount    Float?
+  totalClaimedAmount    Float
   escrowAddress         String?
   eachContributorAmount Float
-  noOfTimesClaimed      Int?
+  noOfTimesClaimed      Int
   userId                String
   user                  User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
   GithubContributors    GithubContributors[]
@@ -107,6 +107,7 @@ model GithubContributors {
 
   createdAt DateTime @default(now())
 
+  @@unique([userName, rewardGithubContributorsId])
   @@map("github_contributors")
 }
 
@@ -118,9 +119,9 @@ model RewardSwiggyLastOrder {
   perPeopleClaimAmount Int
   tokenMintAddress     String
   totalAllocatedAmount Float
-  totalClaimedAmount   Float?
+  totalClaimedAmount   Float
   escrowAddress        String?
-  noOfTimesClaimed     Int?
+  noOfTimesClaimed     Int
   userId               String
   user                 User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
   SwiggyAirdropClaim   SwiggyAirdropClaim[]
@@ -139,5 +140,6 @@ model SwiggyAirdropClaim {
 
   createdAt DateTime @default(now())
 
+  @@unique([walletAddress, rewardSwiggyLastOrderId])
   @@map("swiggy_airdrop_claim")
 }

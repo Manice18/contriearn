@@ -28,6 +28,8 @@ export async function createSwiggyAirdropCampaignAction(
       totalAllocatedAmount: data.totalAllocatedAmount,
       perPeopleClaimAmount: perPeopleClaimAmount,
       escrowAddress: escrowAddress,
+      totalClaimedAmount: 0,
+      noOfTimesClaimed: 0,
     },
   });
 

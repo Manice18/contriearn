@@ -31,6 +31,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
@@ -171,6 +172,56 @@ export default function GithubAirdropCampaignTable({
         header: "Each Contributor Amount",
         cell: ({ row }) => (
           <div>{Number(row.original.eachContributorAmount).toFixed(2)}</div>
+        ),
+      },
+      {
+        id: "Token Name",
+        accessorKey: "tokenMintAddress",
+        header: "Token Name",
+        cell: ({ row }) => (
+          <div className="flex items-center space-x-2">
+            <Avatar className="size-7">
+              <AvatarImage
+                src={
+                  row.original.tokenMintAddress ===
+                  "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
+                    ? "https://coin-images.coingecko.com/coins/images/6319/large/usdc.png?1696506694"
+                    : row.original.tokenMintAddress ===
+                        "So11111111111111111111111111111111111111112"
+                      ? "https://assets.coingecko.com/coins/images/4128/standard/solana.png?1718769756"
+                      : ""
+                }
+              />
+              <AvatarFallback>
+                {row.original.tokenMintAddress ===
+                "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
+                  ? "USDC"
+                  : row.original.tokenMintAddress ===
+                      "So11111111111111111111111111111111111111112"
+                    ? "wSOL"
+                    : ""}
+              </AvatarFallback>
+            </Avatar>
+            <span>
+              {row.original.tokenMintAddress ===
+              "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
+                ? "USDC"
+                : row.original.tokenMintAddress ===
+                    "So11111111111111111111111111111111111111112"
+                  ? "wSOL"
+                  : ""}
+            </span>
+          </div>
+        ),
+      },
+      {
+        id: "Times Claimed",
+        accessorKey: "noOfTimesClaimed",
+        header: "Times Claimed",
+        cell: ({ row }) => (
+          <span>
+            {row.original.noOfTimesClaimed ? row.original.escrowAddress : 0}
+          </span>
         ),
       },
       {

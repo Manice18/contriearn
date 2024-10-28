@@ -58,9 +58,9 @@ const SwiggyAirdropCampaignForm = () => {
   });
 
   async function onSubmit(values: SwiggyContributorFormType) {
-    console.log(values);
     try {
       if (!connected || !publicKey) {
+        toast.error("Please connect your wallet first!");
         return;
       }
       let promise: any;

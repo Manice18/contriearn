@@ -61,7 +61,6 @@ const DisplayEscrows = () => {
       toast.success("Escrow refunded successfully");
       await fetchEscrows();
     } catch (error) {
-      console.error("Error refunding escrow:", error);
       toast.error("Failed to refund escrow");
     }
   }
