@@ -76,7 +76,7 @@ export const getSwiggyNextAction = (
   return {
     type: "inline",
     action: {
-      description: `${stage === "1" ? "Scan the QR to proof your username with zk-proof technology with the help of Reclaim Protocol app and after submitting your proof in the app, click on Submit Proof." : stage === "2" ? `Your Swiggy last order was verified successfully and hence you are eligible to claim the airdrop. Click on claim and get airdrop for your last order at ${restaurantName}. purchasing from our restaurant!` : stage === "3" ? "Your airdrop is claimed." : ""}`,
+      description: `${stage === "1" ? "Scan the QR to proof your last order with zk-proof technology with the help of Reclaim Protocol app and after submitting your proof in the app, click on Submit Proof." : stage === "2" ? `Your Swiggy last order was verified successfully and hence you are eligible to claim the airdrop. Click on claim and get airdrop for your last order at ${restaurantName}. purchasing from our restaurant!` : stage === "3" ? "Your airdrop is claimed." : ""}`,
       icon: `${url}`,
       label: `${stage === "1" ? "Submit Proof" : stage === "2" ? "Claim Airdrop" : stage === "3" ? "Airdrop Claimed" : ""}`,
       title: `${stage === "1" ? "Proof your last order and claim Airdrop" : stage === "2" ? "Claim Airdrop" : stage === "3" ? "Airdrop Claimed" : ""}`,

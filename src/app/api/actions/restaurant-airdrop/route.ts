@@ -58,6 +58,7 @@ export const GET = async (req: NextRequest) => {
   const { searchParams } = new URL(req.url);
   const campaignId = searchParams.get("campaignId") as string;
   if (!campaignId) {
+    console.log("Invalid Campaign Id");
     return new Response("Invalid Campaign Id", {
       status: 400,
       headers: headers,
