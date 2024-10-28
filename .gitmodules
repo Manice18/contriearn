@@ -1,0 +1,3 @@
+[submodule "contriearn_contract"]
+	path = contriearn_contract
+	url = git@github.com:Manice18/contriearn_contract.git
