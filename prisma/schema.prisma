@@ -1,0 +1,143 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model User {
+  id                       String                     @id @default(cuid())
+  name                     String                     @unique
+  email                    String                     @unique
+  emailVerified            DateTime?
+  image                    String?
+  accounts                 Account[]
+  sessions                 Session[]
+  RewardGithubContributors RewardGithubContributors[]
+  RewardSwiggyLastOrder    RewardSwiggyLastOrder[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
+  @@map("verification_tokens")
+}
+
+model RewardGithubContributors {
+  id                    String               @id @default(cuid())
+  airdropCampaignName   String
+  blinkLink             String?
+  gitHubRepo            String
+  totalContributors     Int
+  tokenMintAddress      String
+  totalAllocatedAmount  Float
+  totalClaimedAmount    Float?
+  escrowAddress         String?
+  eachContributorAmount Float
+  noOfTimesClaimed      Int?
+  userId                String
+  user                  User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  GithubContributors    GithubContributors[]
+
+  createdAt DateTime @default(now())
+
+  @@map("reward_github_contributors")
+}
+
+model GithubContributors {
+  id                         String                   @id @default(cuid())
+  userName                   String
+  totalContributions         Int
+  rewardGithubContributorsId String
+  claimAmount                Float?
+  haveClaimed                Boolean?                 @default(false)
+  rewardGithubContributors   RewardGithubContributors @relation(fields: [rewardGithubContributorsId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@map("github_contributors")
+}
+
+model RewardSwiggyLastOrder {
+  id                   String               @id @default(cuid())
+  airdropCampaignName  String
+  blinkLink            String?
+  nameOfRestuarant     String
+  perPeopleClaimAmount Int
+  tokenMintAddress     String
+  totalAllocatedAmount Float
+  totalClaimedAmount   Float?
+  escrowAddress        String?
+  noOfTimesClaimed     Int?
+  userId               String
+  user                 User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  SwiggyAirdropClaim   SwiggyAirdropClaim[]
+
+  createdAt DateTime @default(now())
+
+  @@map("reward_swiggy_last_order")
+}
+
+model SwiggyAirdropClaim {
+  id                      String                @id @default(cuid())
+  walletAddress           String
+  rewardSwiggyLastOrderId String
+  haveClaimed             Boolean?              @default(false)
+  rewardSwiggyLastOrder   RewardSwiggyLastOrder @relation(fields: [rewardSwiggyLastOrderId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@map("swiggy_airdrop_claim")
+}
