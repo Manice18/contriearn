@@ -264,7 +264,7 @@ export const POST = async (req: NextRequest) => {
           links: {
             next: {
               type: "post",
-              href: `/api/actions/restaurant-airdrop/next-action?campaignId=${campaignId}&amount=${contributors[0].claimAmount}&username=${getUsername}`,
+              href: `/api/actions/contributor-airdrop/next-action?campaignId=${campaignId}&amount=${contributors[0].claimAmount}&username=${getUsername}`,
             },
           },
         },
