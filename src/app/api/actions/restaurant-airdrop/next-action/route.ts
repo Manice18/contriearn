@@ -12,12 +12,6 @@ import { clusterApiUrl, Connection, PublicKey } from "@solana/web3.js";
 
 import prisma from "@/lib/prisma";
 
-type Contributors = {
-  id: number;
-  login: string;
-  contributions: number;
-};
-
 // create the standard headers for this route (including CORS)
 const headers = createActionHeaders();
 
@@ -35,6 +29,7 @@ export const POST = async (req: NextRequest) => {
     const url = new URL(req.url);
     const campaignId = url.searchParams.get("campaignId") as string;
     const amount = url.searchParams.get("amount") as string;
+    const customerId = url.searchParams.get("customerId") as string;
 
     const body: NextActionPostRequest = await req.json();
 
@@ -75,14 +70,15 @@ export const POST = async (req: NextRequest) => {
         const addOrUpdateSuccessfulClaimer =
           await prisma.swiggyAirdropClaim.upsert({
             where: {
-              walletAddress_rewardSwiggyLastOrderId: {
-                walletAddress: body.account.toString(),
+              customerId_rewardSwiggyLastOrderId: {
+                customerId: customerId,
                 rewardSwiggyLastOrderId: campaignId,
               },
             },
             create: {
               walletAddress: body.account.toString(),
               rewardSwiggyLastOrderId: campaignId,
+              customerId: customerId,
               haveClaimed: true,
             },
             update: {
@@ -125,7 +121,7 @@ export const POST = async (req: NextRequest) => {
 
     const payload: CompletedAction = {
       type: "completed",
-      title: "Airdrop Campaign Created Successfully!",
+      title: "Airdrop Claimed Successfully!",
       icon: new URL("/airdrop.webp", new URL(req.url).origin).toString(),
       label: `Claim Successful!`,
       description: `Airdrop claimed successfully. Thanks for purchasing from our restaurant!`,

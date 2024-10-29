@@ -8,7 +8,7 @@ const providers = [
   },
   {
     name: "swiggy",
-    providerId: "1a5215ec-ec39-41a2-932d-38fafe85b886",
+    providerId: "957b5549-b04c-4abf-84e7-f646e63184c1",
   },
 ];
 
@@ -48,10 +48,10 @@ export const getGithubNextAction = (
   return {
     type: "inline",
     action: {
-      description: `${stage === "1" ? "Scan the QR to proof your username with zk-proof technology with the help of Reclaim Protocol app and after submitting your proof in the app, click on Submit Proof." : stage === "2" ? "Your GitHub username was verified successfully and hence you are eligible to claim the airdrop. Click on claim and get airdrop for your contributions. Thanks for your contributions and keep contributing!" : stage === "3" ? "Your airdrop is claimed." : ""}`,
+      description: `${stage === "1" ? "Scan the QR to prove your username with zk-proof technology with the help of Reclaim Protocol app and after submitting your proof in the app, click on Submit Proof." : stage === "2" ? "Your GitHub username was verified successfully and hence you are eligible to claim the airdrop. Click on claim and get airdrop for your contributions. Thanks for your contributions and keep contributing!" : stage === "3" ? "Your airdrop is claimed." : ""}`,
       icon: `${url}`,
       label: `${stage === "1" ? "Submit Proof" : stage === "2" ? "Claim Airdrop" : stage === "3" ? "Airdrop Claimed" : ""}`,
-      title: `${stage === "1" ? "Proof your GitHub username and claim Airdrop" : stage === "2" ? "Claim Airdrop" : stage === "3" ? "Airdrop Claimed" : ""}`,
+      title: `${stage === "1" ? "Prove your GitHub username and claim Airdrop" : stage === "2" ? "Claim Airdrop" : stage === "3" ? "Airdrop Claimed" : ""}`,
       type: "action",
       links: {
         actions: [
@@ -72,20 +72,21 @@ export const getSwiggyNextAction = (
   statusUrl: string | null,
   escrowId: string,
   restaurantName?: string,
+  customerId?: string,
 ): NextActionLink => {
   return {
     type: "inline",
     action: {
-      description: `${stage === "1" ? "Scan the QR to proof your last order with zk-proof technology with the help of Reclaim Protocol app and after submitting your proof in the app, click on Submit Proof." : stage === "2" ? `Your Swiggy last order was verified successfully and hence you are eligible to claim the airdrop. Click on claim and get airdrop for your last order at ${restaurantName}. purchasing from our restaurant!` : stage === "3" ? "Your airdrop is claimed." : ""}`,
+      description: `${stage === "1" ? "Scan the QR to prove your last order with zk-proof technology with the help of Reclaim Protocol app and after submitting your proof in the app, click on Submit Proof." : stage === "2" ? `Your Swiggy last order was verified successfully and hence you are eligible to claim the airdrop. Click on claim and get airdrop for your last order at ${restaurantName}. purchasing from our restaurant!` : stage === "3" ? "Your airdrop is claimed." : ""}`,
       icon: `${url}`,
       label: `${stage === "1" ? "Submit Proof" : stage === "2" ? "Claim Airdrop" : stage === "3" ? "Airdrop Claimed" : ""}`,
-      title: `${stage === "1" ? "Proof your last order and claim Airdrop" : stage === "2" ? "Claim Airdrop" : stage === "3" ? "Airdrop Claimed" : ""}`,
+      title: `${stage === "1" ? "Prove your last order and claim Airdrop" : stage === "2" ? "Claim Airdrop" : stage === "3" ? "Airdrop Claimed" : ""}`,
       type: "action",
       links: {
         actions: [
           {
             label: `${stage === "1" ? "Submit Proof" : stage === "2" ? "Claim Airdrop" : stage === "3" ? "Airdrop Claimed" : ""}`,
-            href: `/api/actions/restaurant-airdrop?campaignId=${campaignId}&escrowId=${escrowId}&restaurantName=${restaurantName}&check=${Number(stage) === 1 ? `start&statusUrl=${statusUrl}` : Number(stage) === 2 ? `verified&claim=false` : ""}`,
+            href: `/api/actions/restaurant-airdrop?campaignId=${campaignId}&escrowId=${escrowId}&restaurantName=${restaurantName}&check=${Number(stage) === 1 ? `start&statusUrl=${statusUrl}` : Number(stage) === 2 ? `verified&claim=false&customerId=${customerId}` : ""}`,
             type: "transaction",
           },
         ],

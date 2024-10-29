@@ -58,7 +58,6 @@ export const GET = async (req: NextRequest) => {
   const { searchParams } = new URL(req.url);
   const campaignId = searchParams.get("campaignId") as string;
   if (!campaignId) {
-    console.log("Invalid Campaign Id");
     return new Response("Invalid Campaign Id", {
       status: 400,
       headers: headers,
@@ -128,6 +127,7 @@ export const POST = async (req: NextRequest) => {
     const statusUrl = searchParams.get("statusUrl") as string;
     const claim = searchParams.get("claim") as string;
     let check = searchParams.get("check") as string;
+    const customerId = searchParams.get("customerId") as string;
 
     if (!campaignId) {
       throw "Invalid campaignId provided";
@@ -159,6 +159,7 @@ export const POST = async (req: NextRequest) => {
     let imageUrl: string = ``;
 
     let statusUrlStart: string = "";
+    let custId: string = "";
 
     //TODO: Fix- stop calling the generateQR function multiple times (Call it after successful MEMO transaction)
     if (check === null) {
@@ -179,6 +180,8 @@ export const POST = async (req: NextRequest) => {
           .toLowerCase()
       ) {
         check = "verified";
+        custId = JSON.parse(data.session.proofs[0].claimData.parameters)
+          .paramValues.customer_id;
       } else {
         throw `You last order is not from ${restaurantName.replace(/(^\w{1})|(\s+\w{1})/g, (letter) => letter.toUpperCase())}`;
       }
@@ -191,8 +194,8 @@ export const POST = async (req: NextRequest) => {
     if (check === "verified" && claim === "false") {
       const getLastOrderClaim = await prisma.swiggyAirdropClaim.findUnique({
         where: {
-          walletAddress_rewardSwiggyLastOrderId: {
-            walletAddress: body.account.toString(),
+          customerId_rewardSwiggyLastOrderId: {
+            customerId: customerId,
             rewardSwiggyLastOrderId: campaignId,
           },
         },
@@ -253,7 +256,7 @@ export const POST = async (req: NextRequest) => {
           links: {
             next: {
               type: "post",
-              href: `/api/actions/restaurant-airdrop/next-action?campaignId=${campaignId}&amount=${rewardLastOrder?.perPeopleClaimAmount}`,
+              href: `/api/actions/restaurant-airdrop/next-action?campaignId=${campaignId}&amount=${rewardLastOrder?.perPeopleClaimAmount}&customerId=${customerId}`,
             },
           },
         },
@@ -288,6 +291,7 @@ export const POST = async (req: NextRequest) => {
                     null,
                     escrowId,
                     restaurantName,
+                    custId,
                   )
                 : completedAction({
                     contriType: "swiggy",

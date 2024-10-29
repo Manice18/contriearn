@@ -135,11 +135,12 @@ model SwiggyAirdropClaim {
   id                      String                @id @default(cuid())
   walletAddress           String
   rewardSwiggyLastOrderId String
+  customerId              String
   haveClaimed             Boolean?              @default(false)
   rewardSwiggyLastOrder   RewardSwiggyLastOrder @relation(fields: [rewardSwiggyLastOrderId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
 
-  @@unique([walletAddress, rewardSwiggyLastOrderId])
+  @@unique([customerId, rewardSwiggyLastOrderId])
   @@map("swiggy_airdrop_claim")
 }

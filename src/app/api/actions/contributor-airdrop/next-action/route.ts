@@ -113,7 +113,7 @@ export const POST = async (req: NextRequest) => {
 
     const payload: CompletedAction = {
       type: "completed",
-      title: "Airdrop Campaign Created Successfully!",
+      title: "Airdrop Claimed Successfully!",
       icon: new URL("/airdrop.webp", new URL(req.url).origin).toString(),
       label: `Claim Successful!`,
       description: `Airdrop claimed successfully. Thanks for your contributions and keep contributing!`,
