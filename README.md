@@ -11,6 +11,13 @@
 - **Reward Github Contributors:** Airdrop rewards to repository contributors using Blinks, which can be claimed as part of an airdrop campaign.
 - **Reward Loyal Restaurant Customers:** Airdrop rewards to Swiggy customers who have last order from the specified restaurant mentioned in the airdrop campaign using Blinks.
 
+## Airdrop yourself some USDC to try out
+
+Go to Circle USDC faucet and select solana Devnet:
+[Circle USDC faucet](https://faucet.circle.com/)
+
+Mint address of USDC: `4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU`
+
 ## Bounty Creation and Claim Process
 
 ### GitHub:
@@ -34,6 +41,8 @@
 4. **/settings**: Change your username.
 
 ## Working Videos
+
+YouTube Link: [here](https://youtu.be/3KqX9-JSZpI)
 
 ## How to run the project
 
