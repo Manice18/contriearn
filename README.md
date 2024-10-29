@@ -1,10 +1,12 @@
 ## ContriEarn
+![thumbnail](https://github.com/user-attachments/assets/ab63214f-e44b-48ce-9aad-9d60322f4f21)
+
 
 ## About
 
 **ContriEarn** is a platform that help to create airdrop campaign where users claim on-chain rewards by proving specific achievements or attributes.
 
-### Features
+## Features
 
 - **Reward Github Contributors:** Airdrop rewards to repository contributors using Blinks, which can be claimed as part of an airdrop campaign.
 - **Reward Loyal Restaurant Customers:** Airdrop rewards to Swiggy customers who have last order from the specified restaurant mentioned in the airdrop campaign using Blinks.
@@ -12,8 +14,12 @@
 ## Bounty Creation and Claim Process
 
 ### GitHub:
+![gairdrop1](https://github.com/user-attachments/assets/fff8c971-9396-49b5-933f-9224abade676)
+![gairdrop2](https://github.com/user-attachments/assets/b5e01117-9ae0-41fc-81b6-8cc80bc2d27d)
 
 ### Restaurant:
+![sairdrop1](https://github.com/user-attachments/assets/184238fc-fa0c-4f1d-a313-9ebfe6fe8195)
+![sairdrop2](https://github.com/user-attachments/assets/8a0afb7a-be99-4da3-b02a-52158c31ce7a)
 
 ### Blink Routes:
 
@@ -53,4 +59,4 @@
 <img height="25" src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="typescript" title="Typescript" />
 <img height="25" src="https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white" alt="prisma" title="prisma" />
 <img height="25" src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="postgresql" title="PostgreSQL" />
-<img height="25" src="https://bookface-images.s3.us-west-2.amazonaws.com/logos/671517b5e6b462702c749bf4c4ec64d45bdd3126.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAQC4NIECAC5AP4AWJ%2F20240901%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20240901T011725Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEGcaCXVzLXdlc3QtMiJHMEUCIQD5%2FWjgkvQzvfTDR2EkpkoBUKK%2FMkd6sX96lNhlz8LEVAIgWaCFpC5Ked2QedLcSgldyXqn5ya7ZnZ%2FLtwW%2B9vMIlgq7gMIgP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARAAGgwwMDYyMDE4MTEwNzIiDEY6q2LKpMI1AkYvDSrCA5dFEyvyZuivx4nPpgJhnVNxwJlaFy%2B1iMCKknsNyQlHuRwjUjEosoA51eengyBTcxDdiQT6lQqMyniSvYVDbJwEtIeuV%2B98BtAAAATADAUSAA%2BOj3gpXqMjipzgEvXx6lEAmQ%2FTA7gzNaBOf6NV5%2FVz9adqE3THkSo24yITR1okU7q2UPlR4t1Q%2F7cF08nDixDB0z9fsz%2Bu6gbFCmX0QVXoJnnss7PNJutEUENOzLTy8zOJpEzg6CerQb4q1TET0J7vusDuFNe592G9Az8pKiK5FytlhNM2%2FMfmP9RjxxLR0yKfmMTN75Ws2ifc4rXc4mlTJWFCiXn%2BFlTXFZlRYL0oWL09Sl9soTGyzShQgK3FpZ5W0jGwNypMLXdSApB3dsEM0MEc50jp9PENJ1l5YckFNuo0TDScXHUnFzNutCwjIBA2dzyF4m9jXNzzlTNyvXKN91joW80IXxgTDnIMCmXaU6HmoYI%2Fb0pPTTvz3F%2BHd5H8puVA66Hi%2BPrEb8zykUjx6ekSnvnRZYIHa2jFy63Mqqgh2M0LxIWXpheASn%2FlhDXSGhZTFyUiQiM80TrtgZX1PILozLin3VrD4XTV%2Fswl%2FDCbx862BjqlAT8NbbUX5lzBp2CMmcSX8LE6Cv4QTeeQ1tXQq14b6CyufkRZytvsXhh2ZetqsTOCXsvwjGagTXnsVQcObVBGi6yS1C8CFevE4%2FYorXw9I6fGUDaRZNsNtpQq0Y4kDHDtADB4BhiVAw%2FnWsaIUqgCDvK%2FtCyJzQdjr6%2BdPxLJBW4vsIXuh8oRRDoOStPld8qs32ooRHfnH7f7NIp8GXLsQXtMqsOMlQ%3D%3D&X-Amz-SignedHeaders=host&X-Amz-Signature=9320968d478e99e9fa6e5de0bfbf38038cd439ee241516136e96887ee5987cd3" alt="reclaim-protocol" title="Reclaim Protocol" />
+<img height="25" src="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/10/82/34/10823489-77e0-e015-b15f-7bc9e21c09a9/AppIcon-0-0-1x_U007emarketing-0-6-0-0-85-220.png/512x512bb.jpg" alt="reclaim-protocol" title="Reclaim Protocol" />
