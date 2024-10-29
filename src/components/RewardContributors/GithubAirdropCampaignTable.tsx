@@ -220,7 +220,7 @@ export default function GithubAirdropCampaignTable({
         header: "Times Claimed",
         cell: ({ row }) => (
           <span>
-            {row.original.noOfTimesClaimed ? row.original.escrowAddress : 0}
+            {row.original.noOfTimesClaimed ? row.original.noOfTimesClaimed : 0}
           </span>
         ),
       },
